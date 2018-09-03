@@ -19,4 +19,5 @@ Auth::routes();
 
 Route::get('/search', 'HomeController@index')->name('home');
 
-Route::get('/search/mf-endpoint','HomeController@mfEndpoint');
+Route::get('/search/endpoint','HomeController@searchEndpoint');
+Route::get('/document','HomeController@serveDocument');

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" style="margin-top: 40px">
+    <div class="container" style="margin-top: 40px; font-family: sans-serif">
         <div class="row" style="margin-bottom: 30px">
             <div class="col-md-8 col-md-offset-2" style="">
                 <h4 style="text-align: center; color: #000063">&nbsp;<strong>ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය</strong>&nbsp;</h4>
@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <table class="table">
-                    <tr class="bg-warning">
+                    <tr class="bg-info">
                         <td><input type="text" style="color: black" class="form-control" id="search-text" placeholder="ලිපිගොනුවේ නම අැතුලත් කරන්න" onkeyup="ajaxme()"></td>
                         <td align="right">
                             <select class="form-control" id="search-type" style="width: 95%;" onchange="ajaxme()" required>
@@ -22,7 +22,7 @@
                             </select>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="text-muted">
                         <td colspan="2">
                             <small class="small" style="text-align: left; color: brown">*තොරතුරු ලබා ගැනීමට බළාපොරොත්තු ව ලිපිගොනුවේ නම අැතුලත් කරන්න</small>
                         </td>
@@ -32,32 +32,41 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 col-md-offset-3" align="center" id="table">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div id="resultsCount">
+                </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" align="center" id="table" style="color: black">
             </div>
         </div>
 
     </div>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    {{--<script src="{{ asset('js/awesomplete.min.js') }}" async></script>--}}
-
     <script>
         function ajaxme() {
             var ajax = new XMLHttpRequest();
             var search = $('#search-text').val();
             var type = $('#search-type').val();
+            var resultsCount = document.getElementById('resultsCount');
+
             if (search.length === 0) {
                 document.getElementById('table').innerHTML = null;
+                resultsCount.innerHTML = null;
+                resultsCount.setAttribute('class', 'alert alert-danger');
+                resultsCount.appendChild(document.createTextNode("0 matching documents found!"));
             }
             if (search.length >= 2) {
-                ajax.open("GET", "http://127.0.0.1:8000/search/mf-endpoint?val=" + search + "&type=" + type, true);
+                ajax.open("GET", "http://127.0.0.1:8000/search/endpoint?val=" + search + "&type=" + type, true);
                 ajax.onload = function () {
                     var list = JSON.parse(ajax.responseText);
-                    console.log(list);
 
+                    console.log(list);
                     var table = document.createElement('table');
                     var thead = document.createElement('thead');
-                    table.setAttribute('class', 'table table-bordered table-hover');
+                    table.setAttribute('class', 'table table-bordered table-hover text-center');
                     var headtr = document.createElement('tr');
                     var th1 = document.createElement('th');
                     th1.appendChild(document.createTextNode("#"));
@@ -79,6 +88,7 @@
                     thead.appendChild(headtr);
                     table.appendChild(thead);
                     var tbody = document.createElement('tbody');
+
                     if (list.length === 0) {
                         document.getElementById('table').innerHTML = null;
                         var tr_empty = document.createElement('tr');
@@ -87,9 +97,17 @@
                         td_empty.setAttribute('colspan', '2');
                         tr_empty.appendChild(td_empty);
                         tbody.appendChild(tr_empty);
-                        document.getElementById('table').appendChild(table);
+                        // document.getElementById('table').appendChild(table);
+
+                        resultsCount.innerHTML = null;
+                        resultsCount.setAttribute('class', 'alert alert-danger');
+                        resultsCount.appendChild(document.createTextNode("0 matching documents found!"));
                     }
                     else {
+                        resultsCount.innerHTML = null;
+                        resultsCount.setAttribute('class', 'alert alert-success');
+                        resultsCount.appendChild(document.createTextNode(list.length + " matching documents found!"));
+
                         for (var i = 0; i < list.length; i++) {
                             var tr = document.createElement('tr');
 
@@ -97,14 +115,15 @@
                             var td2 = document.createElement('td');
                             var td3 = document.createElement('td');
                             var link = document.createElement('a');
-                                link.setAttribute('href','/doc/'+list[i]['form_id']);
-                                link.innerHTML=list[i]['form_id'];
+                            // link.setAttribute('href', '/document?form_id=' + list[i]['form_id']);
+                            link.setAttribute('onclick','popitup("/document?form_id='+list[i]['form_id']+'","'+list[i]['form_id']+'")');
+                            link.setAttribute('target', '_blank');
+                            // link.innerHTML = list[i]['form_name'];
                             var td4 = document.createElement('td');
 
                             td1.appendChild(document.createTextNode((i + 1).toString()));
                             td2.appendChild(document.createTextNode(list[i]['form_id']));
                             td3.appendChild(link);
-                            td4.appendChild(document.createTextNode(list[i]['form_name']));
                             td4.appendChild(document.createTextNode(list[i]['mf_no']));
 
                             tr.appendChild(td1);
@@ -123,5 +142,12 @@
                 ajax.send();
             }
         }
+
+        function popitup(url,windowName) {
+            newwindow=window.open(url,windowName,'height=500,width=600');
+            if (window.focus) {newwindow.focus()}
+            return false;
+        }
+
     </script>
 @endsection
