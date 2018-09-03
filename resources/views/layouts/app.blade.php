@@ -14,10 +14,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 {{--    <link href="{{ asset('css/awesomplete.css') }}" rel="stylesheet">--}}
 </head>
-<body>
+<body style="background:#ffffff;">
 <div id="app">
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
+    <nav class="navbar navbar-default navbar-static-top" style="background: rgb(252, 248, 227);">
+        <div class="container" style="padding-bottom: 5px">
             <div class="navbar-header">
 
                 <!-- Collapsed Hamburger -->
@@ -29,8 +29,8 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <label><img src="{{asset("img/logo.png")}}" height="30px"> &nbsp;ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය</label>
+                <a class="navbar-brand" href="{{ url('/') }}" style="margin-top: -7px">
+                    <label style="color: black"><img src="{{asset("img/logo.png")}}" height="40px"> &nbsp;ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය</label>
                 </a>
             </div>
 
