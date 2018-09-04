@@ -23,5 +23,6 @@ Route::get('/search/endpoint','HomeController@searchEndpoint');
 Route::get('/document','HomeController@serveDocument');
 
 Route::get('/alldocuments','HomeController@getCustomDocumentLists');
-Route::post('/alldocsendpoint','HomeController@allDocsEndpoint');
 Route::get('/alldocsendpoint','HomeController@allDocsEndpoint');
+
+Route::get('/deletedocument','HomeController@deleteDocument');

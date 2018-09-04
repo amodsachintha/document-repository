@@ -1,4 +1,3 @@
-
 //// SEARCH PAGE JS ////
 function ajaxme() {
     var ajax = new XMLHttpRequest();
@@ -67,6 +66,14 @@ function ajaxme() {
                     var tr = document.createElement('tr');
 
                     var td1 = document.createElement('td');
+
+                    if(list[i]['destroyed'] === 1){
+                        td1.setAttribute('style', 'background-color: rgba(230, 76, 60, 1); color: white');
+                    }
+                    else{
+                        td1.setAttribute('style', 'background-color: #239B56; color: black');
+                    }
+
                     var td2 = document.createElement('td');
                     var td3 = document.createElement('td');
                     var link = document.createElement('a');
@@ -99,7 +106,7 @@ function ajaxme() {
 }
 
 function popitup(url, windowName) {
-    newwindow = window.open(url, windowName, 'height=500,width=600');
+    newwindow = window.open(url, windowName, 'height=900,width=600');
     if (window.focus) {
         newwindow.focus()
     }
@@ -107,14 +114,19 @@ function popitup(url, windowName) {
 }
 
 
-
 ///  VIEW ALL DOCS PAGE JS ///
 function ajaxfordocs() {
     var ajax = new XMLHttpRequest();
     var count = document.getElementById("size").value;
     var size = getCols().length;
-    ajax.open("GET", "/alldocsendpoint?" + getInputValues() + "&colsize=" + size + "&count=" + count, true);
+    var showDestroyed = document.getElementById('show_destroyed');
+
+    var date_from = document.getElementById('date_from');
+    var date_to = document.getElementById('date_to');
+
+    ajax.open("GET", "/alldocsendpoint?" + getInputValues() + "&colsize=" + size + "&count=" + count + "&showdestroyed=" + showDestroyed.checked + "&from=" + date_from.value + "&to=" + date_to.value, true);
     ajax.onload = function () {
+        // console.log(ajax.responseText);
         var list = JSON.parse(ajax.responseText);
         drawTable(list);
     };
@@ -135,6 +147,7 @@ function getInputValues() {
 function getCols() {
     var checkedValue = new Array();
     var inputElements = document.getElementsByClassName('msgcheckbox');
+    // checkedValue.push('#');
     for (var i = 0; inputElements[i]; ++i) {
         if (inputElements[i].checked) {
             checkedValue.push(inputElements[i].value);
@@ -145,13 +158,20 @@ function getCols() {
 
 function drawTable(list) {
     var tableDiv = document.getElementById('tableDiv');
+    tableDiv.innerHTML = null;
     var table = document.createElement('table');
     table.setAttribute('class', 'table table-bordered table-hover');
     table.setAttribute('style', '-webkit-filter: drop-shadow(1px 2px 2px gray); margin: 2px; text-align: center; background-color: #fffffe')
     var thead = document.createElement('thead');
     var head_tr = document.createElement('tr');
     var cols = getCols();
-    //creating coloumns
+    //creating coloumns HEAD
+
+    var n_td = document.createElement('td');
+    n_td.appendChild(document.createTextNode("#"));
+    head_tr.appendChild(n_td);
+
+
     for (var i = 0; i < cols.length; i++) {
         var head_td = document.createElement('td');
         head_td.setAttribute('class', 'bg-info');
@@ -161,11 +181,22 @@ function drawTable(list) {
     }
 
     var tbody = document.createElement('tbody');
-    //creating data rows..
+    //creating data rows.. BODY
     for (var k = 0; k < list.length; k++) {
         var body_tr = document.createElement('tr');
+
+        var nb_td = document.createElement('td');
+        nb_td.appendChild(document.createTextNode((k + 1).toString()));
+        body_tr.appendChild(nb_td);
         for (var x = 0; x < cols.length; x++) {
             var body_td = document.createElement('td');
+            if (list[k]['destroyed'] === 1) {
+                body_tr.setAttribute('style', 'background-color: #ae2c1f; color: white');
+            }
+            else {
+                body_tr.setAttribute('style', 'background-color: #239B56; color: black');
+            }
+
             body_td.appendChild(document.createTextNode(list[k][cols[x]]));
             body_tr.appendChild(body_td);
         }

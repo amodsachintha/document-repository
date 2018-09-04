@@ -11,8 +11,7 @@
     <title>ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-{{--    <link href="{{ asset('css/awesomplete.css') }}" rel="stylesheet">--}}
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" media="all">
 </head>
 <body style="background:#ffffff;">
 <div id="app">
