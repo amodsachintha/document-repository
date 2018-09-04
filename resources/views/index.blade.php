@@ -29,7 +29,7 @@
                         <h3 class="panel-title"><strong>නව ලිපි ගොනුවක දත්ත අැතුලත් කිරීමට පහත යෙදුම භාවිතා කරන්න</strong></h3>
                     </div>
                     <div class="panel-body bg-danger">
-                        <button class="btn btn-danger btn-lg" id="search" style="width: 90%"><strong>දත්ත අැතුලත් කිරීම</strong></button>
+                        <button class="btn btn-danger btn-lg" onclick="window.location.href='/add'" style="width: 90%"><strong>දත්ත අැතුලත් කිරීම</strong></button>
                     </div>
                 </div>
             </div>

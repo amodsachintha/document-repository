@@ -75,7 +75,7 @@
 </div>
 <footer class="footer">
     <div class="container">
-        <p class="small"><kbd>AI Software&reg; &copy;2018</kbd> &nbsp;<code></code></p>
+        <p class="small"><kbd>AI Software&reg; &copy;2017-{{date('Y')}}</kbd> &nbsp;<code></code></p>
     </div>
 </footer>
 <!-- Scripts -->

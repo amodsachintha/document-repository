@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDocumentsTable extends Migration
 {
@@ -25,7 +25,7 @@ class CreateDocumentsTable extends Migration
             $table->string('form_sender_name');
             $table->string('form_receiver_name');
             $table->string('form_recommender_name');
-            $table->date('destroyed_on');
+            $table->date('destroyed_on')->nullable();
             $table->boolean('destroyed')->default(false);
             $table->timestamps();
         });

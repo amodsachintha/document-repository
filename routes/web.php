@@ -25,4 +25,7 @@ Route::get('/document','HomeController@serveDocument');
 Route::get('/alldocuments','HomeController@getCustomDocumentLists');
 Route::get('/alldocsendpoint','HomeController@allDocsEndpoint');
 
+Route::get('/add','HomeController@showAddDocument');
+Route::post('/add','HomeController@addDocument');
+
 Route::get('/deletedocument','HomeController@deleteDocument');

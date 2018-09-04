@@ -146,4 +146,53 @@ class HomeController extends Controller
     }
 
 
+    public function showAddDocument(){
+        return view('add');
+    }
+
+    public function addDocument(Request $request){
+
+        $form_id = $request->get('form-id');
+        $form_name = $request->get('form-name');
+        $form_start_date = $request->get('form-start-date');
+        $form_accepted_date = $request->get('form-accepted-date');
+        $form_section = $request->get('form-section');
+        $form_mf_no = $request->get('form-mf-no');
+        $form_sender_name = $request->get('form-sender-name');
+        $form_receiver_name = $request->get('form-receiver-name');
+        $form_recommender_name = $request->get('form-recommender-name');
+
+        if(!isset($form_id) || !isset($form_name) || !isset($form_section) || !isset($form_mf_no)){
+//            return abort(500,"Server Error");
+            return view('add',['msg'=>'fail']);
+        }
+
+        if(!isset($form_start_date))
+            $form_start_date = date('Y-m-d');
+        if(!isset($form_accepted_date))
+            $form_accepted_date = date('Y-m-d');
+        if(!isset($form_sender_name))
+            $form_sender_name = "default";
+        if(!isset($form_receiver_name))
+            $form_receiver_name= "default";
+        if(!isset($form_recommender_name))
+            $form_recommender_name = "default";
+
+        DB::table('documents')
+            ->insert([
+               'form_id'=>$form_id,
+                'form_name'=>$form_name,
+                'form_start_date'=> $form_start_date,
+                'form_accepted_date'=> $form_accepted_date,
+                'form_section'=>$form_section,
+                'mf_no'=> $form_mf_no,
+                'form_sender_name'=>$form_sender_name,
+                'form_receiver_name' => $form_receiver_name,
+                'form_recommender_name' => $form_recommender_name,
+            ]);
+
+        return view('add',['msg'=>'ok']);
+
+    }
+
 }

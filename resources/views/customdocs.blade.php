@@ -34,8 +34,8 @@
 
                     </tr>
                     <tr>
-                        <td><input class="msgcheckbox" type="checkbox" id="form_recommender_name" value="form_recommender_name" checked> Form Recommender name</td>
-                        <td><input class="msgcheckbox" type="checkbox" id="destroyed_on" value="destroyed_on" checked> Form Destroyed on</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="form_recommender_name" value="form_recommender_name"> Form Recommender name</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="destroyed_on" value="destroyed_on"> Form Destroyed on</td>
                         <td><input class="msgcheckbox" type="checkbox" id="destroyed" value="destroyed"> Form Destroyed</td>
                         <td></td>
                     </tr>
