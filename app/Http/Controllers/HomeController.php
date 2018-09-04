@@ -28,19 +28,19 @@ class HomeController extends Controller
 
         if ($type == 'form_id') {
             $res = DB::table('documents')
-                ->select(['form_id', 'form_name', 'mf_no', 'destroyed'])
+                ->select(['form_id', 'form_name', 'mf_no', 'destroyed', 'lent'])
                 ->where('form_id', 'like', '%' . $search . '%')
                 ->orderBy('created_at', 'ASC')
                 ->get();
         } elseif ($type == 'form_name') {
             $res = DB::table('documents')
-                ->select(['form_id', 'form_name', 'mf_no', 'destroyed'])
+                ->select(['form_id', 'form_name', 'mf_no', 'destroyed', 'lent'])
                 ->where('form_name', 'like', '%' . $search . '%')
                 ->orderBy('created_at', 'ASC')
                 ->get();
         } elseif ($type == 'mf_no') {
             $res = DB::table('documents')
-                ->select(['form_id', 'form_name', 'mf_no', 'destroyed'])
+                ->select(['form_id', 'form_name', 'mf_no', 'destroyed', 'lent'])
                 ->where('mf_no', 'like', '%' . $search . '%')
                 ->orderBy('created_at', 'ASC')
                 ->get();
@@ -57,7 +57,12 @@ class HomeController extends Controller
             $res = DB::table('documents')
                 ->where('form_id', $form_id)
                 ->first();
-            return view('document', ['document' => $res]);
+
+            $isLent = DB::table('lendings')
+                ->where('form_id', $form_id)
+                ->count();
+
+            return view('document', ['document' => $res, 'isLent' => $isLent]);
         } else {
             return response()->json(["msg" => "Incorrect request parameters"]);
         }
@@ -146,11 +151,13 @@ class HomeController extends Controller
     }
 
 
-    public function showAddDocument(){
+    public function showAddDocument()
+    {
         return view('add');
     }
 
-    public function addDocument(Request $request){
+    public function addDocument(Request $request)
+    {
 
         $form_id = $request->get('form-id');
         $form_name = $request->get('form-name');
@@ -162,37 +169,133 @@ class HomeController extends Controller
         $form_receiver_name = $request->get('form-receiver-name');
         $form_recommender_name = $request->get('form-recommender-name');
 
-        if(!isset($form_id) || !isset($form_name) || !isset($form_section) || !isset($form_mf_no)){
+        if (!isset($form_id) || !isset($form_name) || !isset($form_section) || !isset($form_mf_no)) {
 //            return abort(500,"Server Error");
-            return view('add',['msg'=>'fail']);
+            return view('add', ['msg' => 'fail']);
         }
 
-        if(!isset($form_start_date))
+        if (!isset($form_start_date))
             $form_start_date = date('Y-m-d');
-        if(!isset($form_accepted_date))
+        if (!isset($form_accepted_date))
             $form_accepted_date = date('Y-m-d');
-        if(!isset($form_sender_name))
+        if (!isset($form_sender_name))
             $form_sender_name = "default";
-        if(!isset($form_receiver_name))
-            $form_receiver_name= "default";
-        if(!isset($form_recommender_name))
+        if (!isset($form_receiver_name))
+            $form_receiver_name = "default";
+        if (!isset($form_recommender_name))
             $form_recommender_name = "default";
 
         DB::table('documents')
             ->insert([
-               'form_id'=>$form_id,
-                'form_name'=>$form_name,
-                'form_start_date'=> $form_start_date,
-                'form_accepted_date'=> $form_accepted_date,
-                'form_section'=>$form_section,
-                'mf_no'=> $form_mf_no,
-                'form_sender_name'=>$form_sender_name,
+                'form_id' => $form_id,
+                'form_name' => $form_name,
+                'form_start_date' => $form_start_date,
+                'form_accepted_date' => $form_accepted_date,
+                'form_section' => $form_section,
+                'mf_no' => $form_mf_no,
+                'form_sender_name' => $form_sender_name,
                 'form_receiver_name' => $form_receiver_name,
                 'form_recommender_name' => $form_recommender_name,
             ]);
 
-        return view('add',['msg'=>'ok']);
+        return view('add', ['msg' => 'ok']);
 
+    }
+
+
+    public function showLendings()
+    {
+        return view('lend', ['data' => $this->loadLendings(), 'i' => 1]);
+    }
+
+    private function loadLendings()
+    {
+        return DB::table('lendings')
+            ->where('lent', true)
+            ->orderBy('lend_date', 'DESC')
+            ->paginate(10);
+    }
+
+    public function returnDocument(Request $request)
+    {
+        $id = $request->get('id');
+        if (!isset($id)) {
+            return response()->json(['status' => 'error', 'msg' => 'id not set']);
+        } else {
+            DB::table('lendings')
+                ->where('id', $id)
+                ->update([
+                    'lent' => false,
+                    'return_date' => date('Y-m-d'),
+                    'archived' => true,
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+
+            $form_id = DB::table('lendings')
+                ->select('form_id')
+                ->where('id', $id)
+                ->first();
+
+            DB::table('documents')
+                ->where('form_id', $form_id->form_id)
+                ->update([
+                    'lent' => false,
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+        }
+        return response()->json(['status' => 'ok', 'msg' => 'success']);
+    }
+
+    public function addIndividualLendShow(Request $request)
+    {
+        $form_id = $request->get('form_id');
+        if ($form_id != "" || $form_id != null) {
+            $data = DB::table('documents')
+                ->select(['form_id', 'form_name'])
+                ->where('form_id', $form_id)
+                ->first();
+            return view('newlend', ['data' => $data]);
+        }
+
+        return "ERROR!";
+
+    }
+
+    public function addIndividualLend(Request $request)
+    {
+        $form_id = $request->get('form_id');
+        $form_name = $request->get('form_name');
+        $officer_name = $request->get('officer_name');
+
+        $lendsInLendings = DB::table('lendings')
+            ->where('form_id', $form_id)
+            ->where('lent', true)
+            ->count();
+
+        if ($lendsInLendings != 0) {
+            return "<script>alert('Lending Failed! Duplicate Lend Exists!'); window.close();</script>";
+        }
+
+        DB::table('lendings')
+            ->insert([
+                'form_id' => $form_id,
+                'form_name' => $form_name,
+                'lend_date' => date('Y-m-d'),
+                'lent_to' => $officer_name,
+                'lent' => true,
+                'archived' => false,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+
+        DB::table('documents')
+            ->where('form_id', $form_id)
+            ->update([
+                'lent' => true,
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+
+        return "<script>alert('Lending added successfully!'); window.close();</script>";
     }
 
 }

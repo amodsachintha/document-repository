@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="row"  style="margin-bottom: 10px">
+        <div class="row" style="margin-bottom: 10px">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-danger">
                     <div class="panel-heading">
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="row"  style="margin-bottom: 10px">
+        <div class="row" style="margin-bottom: 10px">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-info">
                     <div class="panel-heading">
@@ -46,14 +46,14 @@
                 </div>
             </div>
         </div>
-        <div class="row"  style="margin-bottom: 10px">
+        <div class="row" style="margin-bottom: 10px">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>බැහරට දීමට පහත යෙදුම භාවිතා කරන්න</strong></h3>
                     </div>
                     <div class="panel-body bg-warning">
-                        <button class="btn btn-warning btn-lg" id="search" style="width: 90%"><strong>බැහරට දීම</strong></button>
+                        <button class="btn btn-warning btn-lg" onclick="window.location.href='/lendings'" id="search" style="width: 90%"><strong>බැහරට දීම</strong></button>
                     </div>
                 </div>
             </div>

@@ -16,11 +16,11 @@ function ajaxme() {
         ajax.onload = function () {
             var list = JSON.parse(ajax.responseText);
 
-            console.log(list);
+            // console.log(list);
             var table = document.createElement('table');
             table.setAttribute('style', '-webkit-filter: drop-shadow(1px 2px 2px gray); margin: 2px; text-align: center; background-color: #fffffe');
             var thead = document.createElement('thead');
-            table.setAttribute('class', 'table table-bordered table-hover text-center');
+            table.setAttribute('class', 'table table-bordered text-center');
             var headtr = document.createElement('tr');
             var th1 = document.createElement('th');
             th1.appendChild(document.createTextNode("#"));
@@ -34,10 +34,14 @@ function ajaxme() {
             var th4 = document.createElement('th');
             th4.appendChild(document.createTextNode("MF Number"));
 
+            var th5 = document.createElement('th');
+            th5.appendChild(document.createTextNode('Lend'));
+
             headtr.appendChild(th1);
             headtr.appendChild(th2);
             headtr.appendChild(th3);
             headtr.appendChild(th4);
+            headtr.appendChild(th5);
 
             thead.appendChild(headtr);
             table.appendChild(thead);
@@ -67,11 +71,13 @@ function ajaxme() {
 
                     var td1 = document.createElement('td');
 
-                    if(list[i]['destroyed'] === 1){
+                    if (list[i]['destroyed'] === 1) {
                         td1.setAttribute('style', 'background-color: rgba(230, 76, 60, 1); color: white');
+                        tr.setAttribute('class', 'warning');
                     }
-                    else{
+                    else {
                         td1.setAttribute('style', 'background-color: #239B56; color: black');
+                        tr.setAttribute('class', 'success');
                     }
 
                     var td2 = document.createElement('td');
@@ -82,16 +88,29 @@ function ajaxme() {
                     // link.setAttribute('target', '_blank');
                     link.innerHTML = list[i]['form_name'];
                     var td4 = document.createElement('td');
+                    var td5 = document.createElement('td');
 
                     td1.appendChild(document.createTextNode((i + 1).toString()));
                     td2.appendChild(document.createTextNode(list[i]['form_id']));
                     td3.appendChild(link);
                     td4.appendChild(document.createTextNode(list[i]['mf_no']));
 
+                    var button = document.createElement('button');
+                    button.appendChild(document.createTextNode('Lend'));
+                    button.setAttribute('class', 'btn btn-primary');
+                    button.setAttribute('onclick', 'popitup("/lendings/add?form_id=' + list[i]['form_id'] + '","' + list[i]['form_id'] + '")');
+                    if (list[i]['lent'] === 1) {
+                        button.setAttribute('disabled', 'true');
+                    }
+                    if (list[i]['destroyed'] !== 1) {
+                        td5.appendChild(button);
+                    }
+
                     tr.appendChild(td1);
                     tr.appendChild(td2);
                     tr.appendChild(td3);
                     tr.appendChild(td4);
+                    tr.appendChild(td5);
 
                     tbody.appendChild(tr);
                     table.appendChild(tbody);
@@ -161,7 +180,7 @@ function drawTable(list) {
     tableDiv.innerHTML = null;
     var table = document.createElement('table');
     table.setAttribute('class', 'table table-bordered table-hover');
-    table.setAttribute('style', '-webkit-filter: drop-shadow(1px 2px 2px gray); margin: 2px; text-align: center; background-color: #fffffe')
+    table.setAttribute('style', '-webkit-filter: drop-shadow(1px 2px 2px gray); margin: 2px; text-align: center; background-color: #fffffe');
     var thead = document.createElement('thead');
     var head_tr = document.createElement('tr');
     var cols = getCols();

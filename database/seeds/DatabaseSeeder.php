@@ -11,7 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0; $i < 50; $i++)
+        for($i=0; $i < 50; $i++) {
             $this->call(DocumentsTableSeeder::class);
+        }
+        for($i=0; $i < 20; $i++) {
+//            $this->call(LendingsTableSeedr::class);
+        }
     }
 }

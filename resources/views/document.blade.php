@@ -12,15 +12,21 @@
 
         <div class="jumbotron text-center" @if($document->destroyed)style="background-color: #E74C3C; color: white" @else style="background-color: #2ECC71" @endif>
             <h2>
-               ගොණු අංකය:
+                ගොණු අංකය:
                 <strong>{{$document->form_id}}</strong></h2>
             <h2>
                 MF අංකය:
                 <strong>{{$document->mf_no}}</strong></h2>
-            @if(!$document->destroyed)
-                <p><button class="btn btn-lg btn-danger hidden-print" onclick="if (confirm('Are you sure?')){removeDocument({{$document->id}})} " role="button">Remove Document</button></p>
+            @if($isLent == 0)
+                @if(!$document->destroyed)
+                    <p>
+                        <button class="btn btn-lg btn-danger hidden-print" onclick="if (confirm('Are you sure?')){removeDocument({{$document->id}})} " role="button">Remove Document</button>
+                    </p>
+                @else
+                    <p>විනාශ කළ දිනය: <strong>{{$document->destroyed_on}}</strong></p>
+                @endif
             @else
-                <p>විනාශ කළ දිනය: <strong>{{$document->destroyed_on}}</strong></p>
+                <label class="alert alert-warning" role="alert">LENT</label>
             @endif
 
         </div>
@@ -65,10 +71,10 @@
                         <td><strong>{{$document->form_recommender_name}}</strong></td>
                     </tr>
                     @if($document->destroyed)
-                    <tr style="background-color: #D35400;">
-                        <td>Form Destroyed On</td>
-                        <td><strong>{{$document->destroyed_on}}</strong></td>
-                    </tr>
+                        <tr style="background-color: #D35400;">
+                            <td>Form Destroyed On</td>
+                            <td><strong>{{$document->destroyed_on}}</strong></td>
+                        </tr>
                     @endif
                 </table>
             </div>
@@ -78,14 +84,14 @@
     <script type="text/javascript">
         function removeDocument(id) {
             var ajax = new XMLHttpRequest();
-            ajax.open("GET","/deletedocument?id="+id,true);
+            ajax.open("GET", "/deletedocument?id=" + id, true);
             ajax.onload = function () {
                 var msg = JSON.parse(ajax.responseText);
-                if(msg['status'] === 'ok'){
+                if (msg['status'] === 'ok') {
                     alert("Document Deleted!");
                     window.location.reload();
                 }
-                else{
+                else {
                     alert("Deletion Failed!");
                 }
             };
