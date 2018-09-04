@@ -41,7 +41,7 @@
                         <h3 class="panel-title"><strong>සියලු ගොනු වල ලයිස්තුවක් ලබා ගැනීමට පහත යෙදුම භාවිතා කරන්න</strong></h3>
                     </div>
                     <div class="panel-body bg-info">
-                        <button class="btn btn-info btn-lg" id="search" style="width: 90%"><strong>සියලු ගෙනු</strong></button>
+                        <button class="btn btn-info btn-lg" onclick="window.location.href='/alldocuments'" id="search" style="width: 90%"><strong>සියලු ගෙනු</strong></button>
                     </div>
                 </div>
             </div>

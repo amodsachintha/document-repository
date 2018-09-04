@@ -17,57 +17,81 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function searchEndpoint(Request $request){
+    public function searchEndpoint(Request $request)
+    {
         $search = $request->get('val');
         $type = $request->get('type');
 
-        if(!isset($search) || !isset($type))
-            return response()->json(["msg"=>"Incorrect request parameters"]);
+        if (!isset($search) || !isset($type))
+            return response()->json(["msg" => "Incorrect request parameters"]);
 
-        if($type=='form_id'){
+        if ($type == 'form_id') {
             $res = DB::table('documents')
-                ->select(['form_id','form_name','mf_no'])
-                ->where('form_id','like','%'.$search.'%')
-                ->orderBy('created_at','ASC')
+                ->select(['form_id', 'form_name', 'mf_no'])
+                ->where('form_id', 'like', '%' . $search . '%')
+                ->orderBy('created_at', 'ASC')
                 ->get();
-        }
-        elseif ($type == 'form_name'){
+        } elseif ($type == 'form_name') {
             $res = DB::table('documents')
-                ->select(['form_id','form_name','mf_no'])
-                ->where('form_name','like','%'.$search.'%')
-                ->orderBy('created_at','ASC')
+                ->select(['form_id', 'form_name', 'mf_no'])
+                ->where('form_name', 'like', '%' . $search . '%')
+                ->orderBy('created_at', 'ASC')
                 ->get();
-        }
-        elseif($type == 'mf_no'){
+        } elseif ($type == 'mf_no') {
             $res = DB::table('documents')
-                ->select(['form_id','form_name','mf_no'])
-                ->where('mf_no','like','%'.$search.'%')
-                ->orderBy('created_at','ASC')
+                ->select(['form_id', 'form_name', 'mf_no'])
+                ->where('mf_no', 'like', '%' . $search . '%')
+                ->orderBy('created_at', 'ASC')
                 ->get();
-        }
-        else{
+        } else {
             $res = ["No Documents found"];
         }
         return response()->json($res);
     }
 
-    public function serveDocument(Request $request){
+    public function serveDocument(Request $request)
+    {
         $form_id = $request->get('form_id');
-        if(isset($form_id)){
+        if (isset($form_id)) {
             $res = DB::table('documents')
-                    ->where('form_id',$form_id)
-                    ->first();
+                ->where('form_id', $form_id)
+                ->first();
             return response()->json($res);
-        }
-        else{
-            return response()->json(["msg"=>"Incorrect request parameters"]);
+        } else {
+            return response()->json(["msg" => "Incorrect request parameters"]);
         }
 
 
     }
 
+    public function getCustomDocumentLists(Request $request)
+    {
+        return view('customdocs');
+    }
 
+    public function allDocsEndpoint(Request $request)
+    {
+        $cols = $request->all();
+        $size = intval($request->get('colsize'));
+        $count = intval($request->get('count'));
+        $str = array();
+        $i=0;
+        foreach ($cols as $col) {
+            if ($i < $size){
+                $i++;
+                array_push($str,strval($col));
 
+            }else
+                break;
+        }
+
+        $res = DB::table('documents')
+                  ->select($str)
+                  ->limit($count)
+                  ->get();
+        return response()->json($res);
+
+    }
 
 
 }
