@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom: 15px">
+        <div class="row" style="margin-bottom: 15px; font-family: sans-serif" >
             <div class="col-md-8 col-md-offset-2" style="color: black; ">
                 <table class="table table-striped table-bordered" style="-webkit-filter: drop-shadow(1px 2px 2px gray); margin: 2px; text-align: center; background-color: #fffffe">
                     <thead>
