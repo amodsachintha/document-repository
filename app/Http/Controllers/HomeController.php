@@ -171,7 +171,7 @@ class HomeController extends Controller
 
         if (!isset($form_id) || !isset($form_name) || !isset($form_section) || !isset($form_mf_no)) {
 //            return abort(500,"Server Error");
-            return view('add', ['msg' => 'fail']);
+            return view('add', ['msg' => 'fail', 'info' => 'අත්‍යාවශ්‍ය තොරතුරු අැතුලත් වී නැත!']);
         }
 
         if (!isset($form_start_date))
@@ -184,6 +184,14 @@ class HomeController extends Controller
             $form_receiver_name = "default";
         if (!isset($form_recommender_name))
             $form_recommender_name = "default";
+
+        $count = DB::table('documents')
+            ->where('form_id', $form_id)
+            ->count();
+
+        if ($count != 0) {
+            return view('add', ['msg' => 'fail', 'info' => 'මෙම ගොනු අංකය සහිත ලිපිගොනුවක් දැනටමත් පවතී!']);
+        }
 
         DB::table('documents')
             ->insert([

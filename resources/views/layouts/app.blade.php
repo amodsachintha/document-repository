@@ -44,7 +44,7 @@
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li><a href="{{ route('login') }}">Login</a></li>
-                        <li><a href="{{ route('register') }}">Register</a></li>
+                        {{--<li><a href="{{ route('register') }}">Register</a></li>--}}
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -73,9 +73,9 @@
 
     @yield('content')
 </div>
-<footer class="footer">
-    <div class="container">
-        <p class="small"><kbd>AI Software&reg; &copy;2017-{{date('Y')}}</kbd> &nbsp;<code></code></p>
+<footer class="footer" style="margin-top: 20px">
+    <div class="container" align="center">
+        <p class="small"><kbd>AI Software&reg; &copy;{{date('Y')}}</kbd> &nbsp;<code></code></p>
     </div>
 </footer>
 <!-- Scripts -->

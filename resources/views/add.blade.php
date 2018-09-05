@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <div class="alert alert-danger">
-                            ගොනුව අැතුලත් කිරීම අසාර්ථකයි!
+                            ගොනුව අැතුලත් කිරීම අසාර්ථකයි! {{$info}}
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <input type="date" class="form-control" name="form-start-date" required>
                     </div>
                     <div class="form-group">
-                        <label for="form-accepted-date" class=" col-form-label font-weight-bold">ලිපිගොනුව ලේඛනාගාරයට අැතුලත් කල දිනය</label>
+                        <label for="form-accepted-date" class=" col-form-label font-weight-bold">ලිපිගොනුව ලේඛණාගාරයට අැතුලත් කල දිනය</label>
                         <input type="date" class="form-control " name="form-accepted-date" required>
                     </div>
                     <div class="form-group">
@@ -66,7 +66,7 @@
                         <input type="text" class="form-control" name="form-mf-no" required>
                     </div>
                     <div class="form-group">
-                        <label for="form-sender-name" class=" col-form-label font-weight-bold">ලේඛනාගාරයට ලිපිගොනුව භාරදුන් නිලධාරියාගේ නම</label>
+                        <label for="form-sender-name" class=" col-form-label font-weight-bold">ලේඛණාගාරයට ලිපිගොනුව භාරදුන් නිලධාරියාගේ නම</label>
                         <input type="text" class="form-control" name="form-sender-name" required>
                     </div>
                     <div class="form-group">

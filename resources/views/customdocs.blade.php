@@ -7,8 +7,15 @@
         }
     </style>
     <div class="container">
+
+        <div class="visible-print">
+            <h1 style="text-align: center; color: #000063"><strong>ලේඛණාගාර තොරතුරු පිළිබද<br> දත්ත පද්ධතිය</strong></h1>
+            <p class="lead" style="text-align: center">දික්වැල්ල ප්‍රාදේශිය සභාව</p>
+            <p style="text-align: center">{{new \Carbon\Carbon()}}</p>
+        </div>
+
         <div class="row">
-            <div class="col-md-12" align="center">
+            <div class="col-md-12 hidden-print" align="center">
                 <table class="table">
                     <thead>
                     <tr>
@@ -51,8 +58,11 @@
                         <td>ගණන: <input type="number" value="20" id="size" min="1" max="1000" required></td>
                     </tr>
                     <tr>
-                        <td colspan="4" align="center">
+                        <td colspan="2" align="center">
                             <button class="btn btn-primary" onclick="ajaxfordocs()">යාවත්කාලීන කරන්න</button>
+                        </td>
+                        <td colspan="2" align="center">
+                            <button class="btn btn-warning" onclick="window.print()" style="width: 150px">Print!</button>
                         </td>
                     </tr>
                     </tbody>
