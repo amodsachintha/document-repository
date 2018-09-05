@@ -9,7 +9,7 @@ function ajaxme() {
         document.getElementById('table').innerHTML = null;
         resultsCount.innerHTML = null;
         resultsCount.setAttribute('class', 'alert alert-danger');
-        resultsCount.appendChild(document.createTextNode("0 matching documents found!"));
+        resultsCount.appendChild(document.createTextNode("සොයාගත් ලිපිගොනු සංඛ්‍යාව: 0"));
     }
     if (search.length >= 2) {
         ajax.open("GET", "/search/endpoint?val=" + search + "&type=" + type, true);
@@ -26,16 +26,16 @@ function ajaxme() {
             th1.appendChild(document.createTextNode("#"));
 
             var th2 = document.createElement('th');
-            th2.appendChild(document.createTextNode("Form ID"));
+            th2.appendChild(document.createTextNode("ගොනු අංකය"));
 
             var th3 = document.createElement('th');
-            th3.appendChild(document.createTextNode("Form Name"));
+            th3.appendChild(document.createTextNode("ගොනුවේ නම"));
 
             var th4 = document.createElement('th');
-            th4.appendChild(document.createTextNode("MF Number"));
+            th4.appendChild(document.createTextNode("MF අංකය"));
 
             var th5 = document.createElement('th');
-            th5.appendChild(document.createTextNode('Lend'));
+            th5.appendChild(document.createTextNode('බැහැරට දීම'));
 
             headtr.appendChild(th1);
             headtr.appendChild(th2);
@@ -59,12 +59,12 @@ function ajaxme() {
 
                 resultsCount.innerHTML = null;
                 resultsCount.setAttribute('class', 'alert alert-danger');
-                resultsCount.appendChild(document.createTextNode("0 matching documents found!"));
+                resultsCount.appendChild(document.createTextNode("සොයාගත් ලිපිගොනු සංඛ්‍යාව: 0"));
             }
             else {
                 resultsCount.innerHTML = null;
                 resultsCount.setAttribute('class', 'alert alert-success');
-                resultsCount.appendChild(document.createTextNode(list.length + " matching documents found!"));
+                resultsCount.appendChild(document.createTextNode("සොයාගත් ලිපිගොනු සංඛ්‍යාව: "+list.length ));
 
                 for (var i = 0; i < list.length; i++) {
                     var tr = document.createElement('tr');
@@ -96,7 +96,7 @@ function ajaxme() {
                     td4.appendChild(document.createTextNode(list[i]['mf_no']));
 
                     var button = document.createElement('button');
-                    button.appendChild(document.createTextNode('Lend'));
+                    button.appendChild(document.createTextNode('බැහැරට දෙන්න'));
                     button.setAttribute('class', 'btn btn-primary');
                     button.setAttribute('onclick', 'popitup("/lendings/add?form_id=' + list[i]['form_id'] + '","' + list[i]['form_id'] + '")');
                     if (list[i]['lent'] === 1) {

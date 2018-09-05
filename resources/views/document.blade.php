@@ -20,7 +20,7 @@
             @if($isLent == 0)
                 @if(!$document->destroyed)
                     <p>
-                        <button class="btn btn-lg btn-danger hidden-print" onclick="if (confirm('Are you sure?')){removeDocument({{$document->id}})} " role="button">Remove Document</button>
+                        <button class="btn btn-lg btn-danger hidden-print" onclick="if (confirm('Are you sure?')){removeDocument({{$document->id}})} " role="button">ලිපිගොනුව විනාශ කරන්න</button>
                     </p>
                 @else
                     <p>විනාශ කළ දිනය: <strong>{{$document->destroyed_on}}</strong></p>
@@ -35,44 +35,44 @@
             <div class="col-md-4 col-md-offset-4">
                 <table class="table">
                     <tr>
-                        <td>Form ID:</td>
+                        <td>ගොනු අංකය:</td>
                         <td><strong>{{$document->form_id}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form Name</td>
+                        <td>ගොනුවේ නම</td>
                         <td><strong>{{$document->form_name}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form MF Number</td>
+                        <td>MF අංකය</td>
                         <td><strong>{{$document->mf_no}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form Start Date</td>
+                        <td>ගොනුව අාරම්භ කල දිනය</td>
                         <td><strong>{{$document->form_start_date}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form Accepted date</td>
+                        <td>ගොනුව ලේඛණාගාරයට අැතුලත් කල දිනය</td>
                         <td><strong>{{$document->form_accepted_date}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form Section</td>
+                        <td>අංශය</td>
                         <td><strong>{{$document->form_section}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form Sender Name</td>
+                        <td>භාරදුන් නිලධාරියාගේ නම</td>
                         <td><strong>{{$document->form_sender_name}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form Receiver Name</td>
+                        <td>භාරගත් නිලධාරියාගේ නම</td>
                         <td><strong>{{$document->form_receiver_name}}</strong></td>
                     </tr>
                     <tr>
-                        <td>Form Recommender Name</td>
+                        <td>නිර්දේශය ලබාදුන් මාන්ඩලික නිලධාරියාගේ නම</td>
                         <td><strong>{{$document->form_recommender_name}}</strong></td>
                     </tr>
                     @if($document->destroyed)
                         <tr style="background-color: #D35400;">
-                            <td>Form Destroyed On</td>
+                            <td>ගොනුව විනාශ කළ දිනය</td>
                             <td><strong>{{$document->destroyed_on}}</strong></td>
                         </tr>
                     @endif

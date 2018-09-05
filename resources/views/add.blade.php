@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <div class="alert alert-success">
-                            Document added successfully!
+                            ගොනුව අැතුලත් කිරීම සාර්ථකයි!
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <div class="alert alert-danger">
-                            Failed to add Document!
+                            ගොනුව අැතුලත් කිරීම අසාර්ථකයි!
                         </div>
                     </div>
                 </div>

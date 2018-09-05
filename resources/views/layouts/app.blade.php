@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය</title>
+    <title>ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය v1.0</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" media="all">
@@ -29,7 +29,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}" style="margin-top: -7px">
-                    <label style="color: black"><img src="{{asset("img/logo.png")}}" height="40px"> &nbsp;ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය</label>
+                    <label style="color: black"><img src="{{asset("img/logo.png")}}" height="40px"> &nbsp;ලේඛණාගාර තොරතුරු පිළිබද දත්ත පද්ධතිය V1.0</label>
                 </a>
             </div>
 

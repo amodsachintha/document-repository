@@ -16,9 +16,9 @@
                         <td><input type="text" style="color: black" class="form-control" id="search-text" placeholder="ලිපිගොනුවේ නම අැතුලත් කරන්න" onkeyup="ajaxme()"></td>
                         <td align="right">
                             <select class="form-control" id="search-type" style="width: 95%;" onchange="ajaxme()" required>
-                                <option value="form_id">Form ID</option>
-                                <option value="mf_no" selected>MF Number</option>
-                                <option value="form_name">Form Name</option>
+                                <option value="form_id">ගොනු අංකය</option>
+                                <option value="mf_no" selected>MF අංකය</option>
+                                <option value="form_name">ගොනුවේ නම</option>
                             </select>
                         </td>
                     </tr>

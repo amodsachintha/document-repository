@@ -16,12 +16,12 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Form ID</th>
-                        <th>Form Name</th>
-                        <th>Lent to</th>
-                        <th>Lend Date</th>
-                        <th>Days Elapsed</th>
-                        <th>Return</th>
+                        <th>ගොනු අංකය</th>
+                        <th>ගොනුවේ නම</th>
+                        <th>බැහර දුන් නිලධාරියාගේ නම</th>
+                        <th>බැහර දුන් දිනය</th>
+                        <th>ගෙවී ගිය දින ගණන</th>
+                        <th>නැවත භාර ගැනීම</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,7 +34,7 @@
                             <td>{{$row->lend_date}}</td>
                             <td>{{round((time()-strtotime($row->lend_date))/(60*60*24))}}</td>
                             <td>
-                                <button class="btn btn-success" onclick="if(confirm('Are you sure?')){returnDocument({{$row->id}})}">Return</button>
+                                <button class="btn btn-success" onclick="if(confirm('Are you sure?')){returnDocument({{$row->id}})}">නැවත භාර ගැනීම</button>
                             </td>
                         </tr>
                     @endforeach
