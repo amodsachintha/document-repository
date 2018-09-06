@@ -4,9 +4,7 @@
 // EMAIL - secretary@divisional.lk
 
 
-Route::get('/', function () {
-    return view('index2');
-});
+Route::get('/', 'DocumentController@index');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

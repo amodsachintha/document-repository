@@ -68,4 +68,11 @@ class DocumentController extends Controller
         return response()->json($res);
 
     }
+
+    public function index()
+    {
+        return view('index2');
+    }
+
+
 }
