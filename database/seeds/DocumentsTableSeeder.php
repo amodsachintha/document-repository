@@ -20,6 +20,7 @@ class DocumentsTableSeeder extends Seeder
             'form_id' => strtolower(str_random(10)),
             'form_name' => strtolower(str_random(10)),
             'form_start_date' => date('Y-m-d', $int1),
+            'form_given_date' => date('Y-m-d', $int1),
             'form_accepted_date' => date('Y-m-d', $int2),
             'form_section' => strtolower(str_random(5)),
             'mf_no' => 'MF-' . strtolower(str_random(3)),

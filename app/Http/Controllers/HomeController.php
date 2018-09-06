@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -62,79 +64,24 @@ class HomeController extends Controller
                 ->where('form_id', $form_id)
                 ->count();
 
-            return view('document', ['document' => $res, 'isLent' => $isLent]);
+            $lending = DB::table('lendings')
+                        ->where('form_id',$form_id)
+                        ->first();
+
+            if($isLent != 0){
+                return view('document', ['document' => $res, 'isLent' => $isLent,'lending'=>$lending]);
+            }
+            else{
+                return view('document', ['document' => $res, 'isLent' => $isLent]);
+            }
+
         } else {
             return response()->json(["msg" => "Incorrect request parameters"]);
         }
-
-
-    }
-
-    public function getCustomDocumentLists(Request $request)
-    {
-        return view('customdocs');
-    }
-
-    public function allDocsEndpoint(Request $request)
-    {
-        $cols = $request->all();
-        $size = intval($request->get('colsize'));
-        $count = intval($request->get('count'));
-
-        $from = $request->get('from');
-        $to = $request->get('to');
-
-        $showDestroyed = $request->get('showdestroyed');
-        $str = array();
-        $i = 0;
-        foreach ($cols as $col) {
-            if ($i < $size) {
-                $i++;
-                array_push($str, strval($col));
-
-            } else
-                break;
-        }
-
-        if (isset($from) && isset($to)) {
-            if ($showDestroyed == "true") {
-                $res = DB::table('documents')
-                    ->where('form_start_date', '>=', $from)
-                    ->where('form_start_date', '<=', $to)
-                    ->orderBy('form_start_date', 'DESC')
-                    ->limit($count)
-                    ->get();
-            } else {
-                $res = DB::table('documents')
-                    ->where('destroyed', 0)
-                    ->where('form_start_date', '>=', $from)
-                    ->where('form_start_date', '<=', $to)
-                    ->orderBy('form_start_date', 'DESC')
-                    ->limit($count)
-                    ->get();
-            }
-        } else {
-            if ($showDestroyed == "true") {
-                $res = DB::table('documents')
-                    ->limit($count)
-                    ->orderBy('form_start_date', 'DESC')
-                    ->get();
-            } else {
-                $res = DB::table('documents')
-                    ->where('destroyed', 0)
-                    ->limit($count)
-                    ->orderBy('form_start_date', 'DESC')
-                    ->get();
-            }
-
-        }
-        return response()->json($res);
-
     }
 
     public function deleteDocument(Request $request)
     {
-
         $id = $request->get('id');
         if (isset($id)) {
             DB::table('documents')
@@ -153,37 +100,76 @@ class HomeController extends Controller
 
     public function showAddDocument()
     {
-        return view('add');
+        $sections = DB::table('documents')
+            ->select(['form_section'])
+            ->distinct('form_section')
+            ->get();
+
+        $mfs = DB::table('documents')
+            ->select(['mf_no'])
+            ->distinct('mf_no')
+            ->get();
+
+        $officers = DB::table('documents')
+            ->select(['form_recommender_name'])
+            ->distinct('form_recommender_name')
+            ->get();
+
+        $senders = DB::table('documents')
+            ->select(['form_sender_name'])
+            ->distinct('form_sender_name')
+            ->get();
+
+        $receivers = DB::table('documents')
+            ->select(['form_receiver_name'])
+            ->distinct('form_receiver_name')
+            ->get();
+
+        return view('add', [
+            'sections' => $sections,
+            'mfs' => $mfs,
+            'officers' => $officers,
+            'senders' => $senders,
+            'receivers' => $receivers,
+        ]);
     }
 
     public function addDocument(Request $request)
     {
-
+//        return response()->json($request->all());
         $form_id = $request->get('form-id');
         $form_name = $request->get('form-name');
         $form_start_date = $request->get('form-start-date');
+        $form_given_date = $request->get('form-given-date');
         $form_accepted_date = $request->get('form-accepted-date');
         $form_section = $request->get('form-section');
+        $form_to_be_destroyed = $request->get('to-be-destroyed');
         $form_mf_no = $request->get('form-mf-no');
         $form_sender_name = $request->get('form-sender-name');
         $form_receiver_name = $request->get('form-receiver-name');
         $form_recommender_name = $request->get('form-recommender-name');
 
-        if (!isset($form_id) || !isset($form_name) || !isset($form_section) || !isset($form_mf_no)) {
+        if ($form_id == null || $form_name == null || $form_mf_no == null) {
 //            return abort(500,"Server Error");
             return view('add', ['msg' => 'fail', 'info' => 'අත්‍යාවශ්‍ය තොරතුරු අැතුලත් වී නැත!']);
         }
 
         if (!isset($form_start_date))
-            $form_start_date = date('Y-m-d');
+            $form_start_date = null;
         if (!isset($form_accepted_date))
-            $form_accepted_date = date('Y-m-d');
+            $form_accepted_date = null;
+        if (!isset($form_given_date))
+            $form_given_date = null;
         if (!isset($form_sender_name))
-            $form_sender_name = "default";
+            $form_sender_name = "-";
         if (!isset($form_receiver_name))
-            $form_receiver_name = "default";
+            $form_receiver_name = "-";
         if (!isset($form_recommender_name))
-            $form_recommender_name = "default";
+            $form_recommender_name = "-";
+        if (!isset($form_section))
+            $form_section = "-";
+        if (!isset($form_to_be_destroyed))
+            $form_to_be_destroyed = null;
 
         $count = DB::table('documents')
             ->where('form_id', $form_id)
@@ -198,12 +184,16 @@ class HomeController extends Controller
                 'form_id' => $form_id,
                 'form_name' => $form_name,
                 'form_start_date' => $form_start_date,
+                'form_given_date' => $form_given_date,
                 'form_accepted_date' => $form_accepted_date,
                 'form_section' => $form_section,
+                'to_be_destroyed' => $form_to_be_destroyed,
                 'mf_no' => $form_mf_no,
                 'form_sender_name' => $form_sender_name,
                 'form_receiver_name' => $form_receiver_name,
                 'form_recommender_name' => $form_recommender_name,
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now(),
             ]);
 
         return view('add', ['msg' => 'ok']);
@@ -304,6 +294,54 @@ class HomeController extends Controller
             ]);
 
         return "<script>alert('Lending added successfully!'); window.close();</script>";
+    }
+
+    public function showProfile()
+    {
+        return view('profile');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $password_old = $request->get('password_old');
+        $password_new_1 = $request->get('password1');
+        $password_new_2 = $request->get('password2');
+        $user = Auth::user();
+
+        if (strlen($password_new_1) < 6) {
+            return view('profile', ['msg' => 'fail', 'info' => 'නව මුරපදයේ දිග අක්ෂර 6ක් හෝ ඊට වැඩි විය යුතුය!']);
+        }
+
+        if (!Hash::check($password_old, $user->password)) {
+            return view('profile', ['msg' => 'fail', 'info' => 'වර්තමාන මුරපදය නොගැලපේ!']);
+        }
+
+        if (strcmp($password_new_1, $password_new_2) != 0) {
+            return view('profile', ['msg' => 'fail', 'info' => 'නව මුරපද සමාන නොවේ!']);
+        }
+
+        $request->user()->fill([
+            'password' => Hash::make($password_new_1),
+        ])->save();
+
+        return view('profile', ['msg' => 'ok', 'info' => 'මුරපදය සාර්ථකව වෙනස් කරන ලදී!']);
+
+    }
+
+    public  function  purgeDocument(Request $request){
+        if(Auth::user()->email != "secretary@divisional.lk")
+            return "ERROR";
+
+        $id = $request->get('id');
+        if($id == null)
+            return response()->json(['status' => 'fail', 'msg' => 'invalid']);
+
+        DB::table('documents')
+            ->where('id',$id)
+            ->delete();
+
+        return response()->json(['status' => 'ok', 'msg' => 'success']);
+
     }
 
 }

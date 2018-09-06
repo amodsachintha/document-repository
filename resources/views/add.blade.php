@@ -46,37 +46,77 @@
                     </div>
                     <div class="form-group">
                         <label for="form-start-date" class=" col-form-label font-weight-bold">ලිපිගොනුව අාරම්භ කල දිනය</label>
-                        <input type="date" class="form-control" name="form-start-date" required>
+                        <input type="date" class="form-control" name="form-start-date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-given-date" class=" col-form-label font-weight-bold">ලිපිගොනුව ලේඛණාගාරයට භාර දුන් දිනය</label>
+                        <input type="date" class="form-control" name="form-given-date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-accepted-date" class=" col-form-label font-weight-bold">ලිපිගොනුව ලේඛණාගාරයට භාරගත් දිනය</label>
+                        <input type="date" class="form-control " name="form-accepted-date" >
                     </div>
                     <div class="form-group">
-                        <label for="form-accepted-date" class=" col-form-label font-weight-bold">ලිපිගොනුව ලේඛණාගාරයට අැතුලත් කල දිනය</label>
-                        <input type="date" class="form-control " name="form-accepted-date" required>
+                        <label for="to_be_destroyed" class=" col-form-label font-weight-bold">විනාශ කළ යුතු දිනය</label>
+                        <input type="date" class="form-control" name="to-be-destroyed">
                     </div>
                     <div class="form-group">
                         <label for="form-section" class="col-form-label font-weight-bold">ලිපිගොනුව අයත් අංශය</label>
-                        <select name="form-section" class="form-control" required>
-                            <option value="">අංශය තොරන්න...</option>
-                            <option value="1">සංවර්ධන</option>
-                            <option value="2">යහපාලනය</option>
-                            <option value="3">පරිපාලන</option>
-                        </select>
+                        <input type="text" list="sections" class="form-control">
+                        <datalist id="sections">
+                            @if(isset($sections))
+                                @foreach($sections as $section)
+                                    <option>{{$section->form_section}}</option>
+                                @endforeach
+                            @endif
+                        </datalist>
                     </div>
                     <div class="form-group">
                         <label for="form-mf-no" class=" col-form-label font-weight-bold">ලිපිගොනුව ගබඩා කල MF අංකය</label>
-                        <input type="text" class="form-control" name="form-mf-no" required>
+                        <input type="text" class="form-control" name="form-mf-no" list="mfs" required>
+                        <datalist id="mfs">
+                            @if(isset($mfs))
+                                @foreach($mfs as $mf)
+                                    <option>{{$mf->mf_no}}</option>
+                                @endforeach
+                            @endif
+                        </datalist>
                     </div>
                     <div class="form-group">
                         <label for="form-sender-name" class=" col-form-label font-weight-bold">ලේඛණාගාරයට ලිපිගොනුව භාරදුන් නිලධාරියාගේ නම</label>
-                        <input type="text" class="form-control" name="form-sender-name" required>
+                        <input type="text" class="form-control" name="form-sender-name" list="senders">
+                        <datalist id="senders">
+                            @if(isset($senders))
+                                @foreach($senders as $sender)
+                                    <option>{{$sender->form_sender_name}}</option>
+                                @endforeach
+                            @endif
+                        </datalist>
                     </div>
                     <div class="form-group">
                         <label for="form-reciever-name" class=" col-form-label font-weight-bold">ලිපිගොනුව භාරගත් නිලධාරියාගේ නම</label>
-                        <input type="text" class="form-control" name="form-receiver-name" required>
+                        <input type="text" class="form-control" name="form-receiver-name" list="receivers">
+                        <datalist id="receivers">
+                            @if(isset($receivers))
+                                @foreach($receivers as $receiver)
+                                    <option>{{$receiver->form_receiver_name}}</option>
+                                @endforeach
+                            @endif
+                        </datalist>
                     </div>
                     <div class="form-group">
                         <label for="form-recommender-name" class=" col-form-label font-weight-bold">නිර්දේශය ලබාදුන් මාන්ඩලික නිලධාරියාගේ
                             නම</label>
-                        <input type="text" class="form-control" name="form-recommender-name" required>
+                        <input type="text" class="form-control" name="form-recommender-name" list="officers">
+                        <datalist id="officers">
+                            @if(isset($officers))
+                                @foreach($officers as $officer)
+                                    <option>{{$officer->form_recommender_name}}</option>
+                                @endforeach
+                            @endif
+                        </datalist>
                     </div>
                     <div align="center">
                         <input type="submit" style="width: 30%;; margin-bottom: 20px;" id="submit" class="btn btn-primary" value="තැන්පත් කරන්න">

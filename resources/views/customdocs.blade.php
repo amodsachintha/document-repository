@@ -26,25 +26,23 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input class="msgcheckbox" type="checkbox" id="form_id" value="form_id" checked> ගොනු අංකය</td>
-                        <td><input class="msgcheckbox" type="checkbox" id="form_name" value="form_name" checked> ගොනුවේ නම</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="form_id" value="form_id" checked> ලිපිගොනු අංකය</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="form_name" value="form_name" checked> ලිපිගොනුව‍ෙ නම</td>
                         <td><input class="msgcheckbox" type="checkbox" id="mf_no" value="mf_no" checked> MF අංකය</td>
-                        <td><input class="msgcheckbox" type="checkbox" id="start_date" value="form_start_date" checked> අාරම්භ කල දිනය</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="start_date" value="form_start_date" checked> ලිපිගොනුව අාරම්භ කල දිනය</td>
 
                     </tr>
                     <tr>
-                        <td><input class="msgcheckbox" type="checkbox" id="accepted_date" value="form_accepted_date" checked> ලේඛණාගාරයට අැතුලත් කල දිනය</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="given_date" value="form_given_date" checked> ලිපිගොනුව ලේඛණාගාරයට භාර දුන් දිනය</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="accepted_date" value="form_accepted_date" checked> ලිපිගොනුව ලේඛණාගාරයට භාරගත් දිනය</td>
                         <td><input class="msgcheckbox" type="checkbox" id="form_section" value="form_section" checked> අංශය</td>
                         <td><input class="msgcheckbox" type="checkbox" id="form_sender_name" value="form_sender_name" checked> භාරදුන් නිලධාරියාගේ නම</td>
-                        <td><input class="msgcheckbox" type="checkbox" id="form_receiver_name" value="form_receiver_name" checked> භාරගත් නිලධාරියාගේ නම</td>
-
-
                     </tr>
                     <tr>
+                        <td><input class="msgcheckbox" type="checkbox" id="form_receiver_name" value="form_receiver_name" checked> භාරගත් නිලධාරියාගේ නම</td>
                         <td><input class="msgcheckbox" type="checkbox" id="form_recommender_name" value="form_recommender_name">නිර්දේශය ලබාදුන් මාන්ඩලික නිලධාරියාගේ නම</td>
                         <td><input class="msgcheckbox" type="checkbox" id="destroyed_on" value="destroyed_on">ගොනුව විනාශ කළ දිනය</td>
                         <td><input class="msgcheckbox" type="checkbox" id="destroyed" value="destroyed"> විනාශවී ද?</td>
-                        <td></td>
                     </tr>
 
                     <tr align="center">

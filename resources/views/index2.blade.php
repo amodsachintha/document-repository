@@ -22,7 +22,7 @@
                         <h3 class="panel-title"><strong>ලිපිගොනු දත්ත පද්ධතියට පිවිසෙන්න පහත යෙදුම භාවිතා කරන්න</strong></h3>
                     </div>
                     <div class="panel-body bg-success">
-                        <button class="btn btn-success btn-lg" onclick="window.location.href='/search'" style="width: 90%"><strong>පිවිසෙන්න</strong></button>
+                        <button class="btn btn-success btn-lg" onclick="window.location.href='/search'" style="width: 90%; color: #242424"><strong>පිවිසෙන්න</strong></button>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                         <h3 class="panel-title"><strong>නව ලිපි ගොනුවක දත්ත අැතුලත් කිරීමට පහත යෙදුම භාවිතා කරන්න</strong></h3>
                     </div>
                     <div class="panel-body bg-danger">
-                        <button class="btn btn-danger btn-lg" onclick="window.location.href='/add'" style="width: 90%"><strong>දත්ත අැතුලත් කිරීම</strong></button>
+                        <button class="btn btn-danger btn-lg" onclick="window.location.href='/add'" style="width: 90%; color: #242424"><strong>දත්ත අැතුලත් කිරීම</strong></button>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                         <h3 class="panel-title"><strong>සියලු ගොනු වල ලයිස්තුවක් ලබා ගැනීමට පහත යෙදුම භාවිතා කරන්න</strong></h3>
                     </div>
                     <div class="panel-body bg-info">
-                        <button class="btn btn-info btn-lg" onclick="window.location.href='/alldocuments'" id="search" style="width: 90%"><strong>සියලු ගොනු</strong></button>
+                        <button class="btn btn-info btn-lg" onclick="window.location.href='/alldocuments'" id="search" style="width: 90%; color: #242424"><strong>සියලු ගොනු</strong></button>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                         <h3 class="panel-title"><strong>ලිපිගොනු බැහරට දීම් ලයිස්තුවක් ලෙස ලබා ගැනීමට පහත යෙදුම භාවිතා කරන්න</strong></h3>
                     </div>
                     <div class="panel-body bg-warning">
-                        <button class="btn btn-warning btn-lg" onclick="window.location.href='/lendings'" id="search" style="width: 90%"><strong>බැහරට දීම</strong></button>
+                        <button class="btn btn-warning btn-lg" onclick="window.location.href='/lendings'" id="search" style="width: 90%; color: #242424"><strong>බැහරට දීම</strong></button>
                     </div>
                 </div>
             </div>
