@@ -125,7 +125,7 @@ function ajaxme() {
 }
 
 function popitup(url, windowName) {
-    newwindow = window.open(url, windowName, 'height=900,width=600');
+    newwindow = window.open(url, windowName, 'height=900,width=700');
     if (window.focus) {
         newwindow.focus()
     }

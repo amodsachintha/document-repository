@@ -32,10 +32,19 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
 
             $client = new Client();
-            $result = $client->get('http://ec2-18-216-129-63.us-east-2.compute.amazonaws.com:8080/api');
-            $val = \GuzzleHttp\json_decode($result->getBody()->getContents());
-            $sc = $result->getStatusCode();
+            $result = null;
+            $val = 0;
+            $sc = 503;
+            try {
+                $result = $client->get('http://ec2-18-216-129-63.us-east-2.compute.amazonaws.com:8080/api');
+                $contents = \GuzzleHttp\json_decode($result->getBody()->getContents());
+                $val = $contents->value;
+                $sc = $result->getStatusCode();
+            } catch (\Exception $ex) {
 
+            }
+
+            // Internet is up
             DB::table('sanity')
                 ->insert([
                     'date' => Carbon::now(),
@@ -44,13 +53,14 @@ class Kernel extends ConsoleKernel
                 ]);
 
             if ($val == 0) {
-                Artisan::call('down');
+                if (!$this->app->isDownForMaintenance())
+                    Artisan::call('down');
             } elseif ($val == 1) {
                 if ($this->app->isDownForMaintenance())
                     Artisan::call('up');
             }
 
-        })->hourly();
+        })->hourly()->evenInMaintenanceMode();
 
 
     }

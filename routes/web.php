@@ -14,8 +14,6 @@ Route::get('/search/endpoint', 'HomeController@searchEndpoint');
 Route::get('/document', 'HomeController@serveDocument');
 
 
-
-
 //Route::get('/alldocuments', 'HomeController@getCustomDocumentLists');
 //Route::get('/alldocsendpoint', 'HomeController@allDocsEndpoint');
 // NO Login for viewing //
@@ -35,6 +33,7 @@ Route::get('/lendings', 'HomeController@showLendings');
 Route::get('/lendings/return', 'HomeController@returnDocument');
 Route::get('/lendings/add', 'HomeController@addIndividualLendShow');
 Route::post('/lendings/add', 'HomeController@addIndividualLend');
+Route::get('/lendings/archive', 'HomeController@showArchive');
 
 
 // PROFILE
@@ -43,4 +42,4 @@ Route::post('/profile/password', 'HomeController@changePassword');
 
 
 // DELETE
-Route::get('/purge','HomeController@purgeDocument');
+Route::get('/purge', 'HomeController@purgeDocument');

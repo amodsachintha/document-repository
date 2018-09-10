@@ -62,16 +62,18 @@ class HomeController extends Controller
 
             $isLent = DB::table('lendings')
                 ->where('form_id', $form_id)
+                ->where('lent',true)
+                ->where('archived',false)
                 ->count();
 
             $lending = DB::table('lendings')
-                        ->where('form_id',$form_id)
-                        ->first();
+                ->where('form_id', $form_id)
+                ->where('lent',true)
+                ->first();
 
-            if($isLent != 0){
-                return view('document', ['document' => $res, 'isLent' => $isLent,'lending'=>$lending]);
-            }
-            else{
+            if ($isLent != 0) {
+                return view('document', ['document' => $res, 'isLent' => $isLent, 'lending' => $lending]);
+            } else {
                 return view('document', ['document' => $res, 'isLent' => $isLent]);
             }
 
@@ -192,8 +194,8 @@ class HomeController extends Controller
                 'form_sender_name' => $form_sender_name,
                 'form_receiver_name' => $form_receiver_name,
                 'form_recommender_name' => $form_recommender_name,
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
 
         return view('add', ['msg' => 'ok']);
@@ -206,12 +208,25 @@ class HomeController extends Controller
         return view('lend', ['data' => $this->loadLendings(), 'i' => 1]);
     }
 
+    public function showArchive()
+    {
+        return view('lend_archive', ['data' => $this->loadArchive(), 'i' => 1]);
+    }
+
     private function loadLendings()
     {
         return DB::table('lendings')
             ->where('lent', true)
             ->orderBy('lend_date', 'DESC')
-            ->paginate(10);
+            ->paginate(15);
+    }
+
+    private function loadArchive()
+    {
+        return DB::table('lendings')
+            ->where('archived', true)
+            ->orderBy('lend_date', 'DESC')
+            ->paginate(15);
     }
 
     public function returnDocument(Request $request)
@@ -328,16 +343,17 @@ class HomeController extends Controller
 
     }
 
-    public  function  purgeDocument(Request $request){
-        if(Auth::user()->email != "secretary@divisional.lk")
+    public function purgeDocument(Request $request)
+    {
+        if (Auth::user()->email != "secretary@divisional.lk")
             return "ERROR";
 
         $id = $request->get('id');
-        if($id == null)
+        if ($id == null)
             return response()->json(['status' => 'fail', 'msg' => 'invalid']);
 
         DB::table('documents')
-            ->where('id',$id)
+            ->where('id', $id)
             ->delete();
 
         return response()->json(['status' => 'ok', 'msg' => 'success']);
