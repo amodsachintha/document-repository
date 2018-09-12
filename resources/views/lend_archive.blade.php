@@ -44,6 +44,15 @@
                 </table>
             </div>
         </div>
+
+        @if(isset($_SERVER['HTTP_REFERER']))
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2" align="center">
+                    <a href="{{$_SERVER['HTTP_REFERER']}}" class="btn btn-info">Back</a>
+                </div>
+            </div>
+        @endif
+
     </div>
 
     <script>

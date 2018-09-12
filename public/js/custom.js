@@ -64,7 +64,7 @@ function ajaxme() {
             else {
                 resultsCount.innerHTML = null;
                 resultsCount.setAttribute('class', 'alert alert-success');
-                resultsCount.appendChild(document.createTextNode("සොයාගත් ලිපිගොනු සංඛ්‍යාව: "+list.length ));
+                resultsCount.appendChild(document.createTextNode("සොයාගත් ලිපිගොනු සංඛ්‍යාව: " + list.length));
 
                 for (var i = 0; i < list.length; i++) {
                     var tr = document.createElement('tr');
@@ -207,15 +207,30 @@ function drawTable(list) {
         var nb_td = document.createElement('td');
         nb_td.appendChild(document.createTextNode((k + 1).toString()));
         body_tr.appendChild(nb_td);
+
+        if (list[k]['destroyed'] === 1) {
+            list[k]['destroyed'] = '✔';
+            body_tr.setAttribute('style', 'background-color: #ae2c1f; color: white');
+        }
+        else {
+            // list[k]['destroyed'] = '✖';
+            list[k]['destroyed'] = '';
+            body_tr.setAttribute('style', 'background-color: #239B56; color: black');
+        }
+
+
         for (var x = 0; x < cols.length; x++) {
             var body_td = document.createElement('td');
-            if (list[k]['destroyed'] === 1) {
-                body_tr.setAttribute('style', 'background-color: #ae2c1f; color: white');
-            }
-            else {
-                body_tr.setAttribute('style', 'background-color: #239B56; color: black');
-            }
+            if (cols[x] === 'to_be_destroyed') {
+                var now = new Date();
+                var then = new Date(list[k]['to_be_destroyed']);
 
+                if (list[k]['to_be_destroyed'] !== null) {
+                    if (then.getTime() <= now.getTime()){
+                        body_td.setAttribute('style', 'background-color: #F4D03F; color: black');
+                    }
+                }
+            }
             body_td.appendChild(document.createTextNode(list[k][cols[x]]));
             body_tr.appendChild(body_td);
         }

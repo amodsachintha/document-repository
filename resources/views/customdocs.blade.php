@@ -41,8 +41,11 @@
                     <tr>
                         <td><input class="msgcheckbox" type="checkbox" id="form_receiver_name" value="form_receiver_name" checked> භාරගත් නිලධාරියාගේ නම</td>
                         <td><input class="msgcheckbox" type="checkbox" id="form_recommender_name" value="form_recommender_name">නිර්දේශය ලබාදුන් මාන්ඩලික නිලධාරියාගේ නම</td>
+                        <td><input class="msgcheckbox" type="checkbox" id="to_be_destroyed" value="to_be_destroyed" checked> විනාශවී කල යුතු දිනය?</td>
                         <td><input class="msgcheckbox" type="checkbox" id="destroyed_on" value="destroyed_on">ගොනුව විනාශ කළ දිනය</td>
-                        <td><input class="msgcheckbox" type="checkbox" id="destroyed" value="destroyed"> විනාශවී ද?</td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="4"><input class="msgcheckbox" type="checkbox" id="destroyed" value="destroyed"> විනාශවී ද?</td>
                     </tr>
 
                     <tr align="center">
@@ -72,6 +75,14 @@
                 <div class="col-md-12" id="tableDiv" style="font-family: sans-serif;">
                 </div>
             </div>
+
+            @if(isset($_SERVER['HTTP_REFERER']))
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2" align="center">
+                        <a href="{{$_SERVER['HTTP_REFERER']}}" class="btn btn-info">Back</a>
+                    </div>
+                </div>
+            @endif
 
 
             <script src="{{ asset('js/jquery.min.js') }}"></script>

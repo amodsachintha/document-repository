@@ -86,7 +86,7 @@
                     @if($isLent != 0)
                         <tr>
                             <td>බැහැරට දුන් නිළධාරියාගේ නම</td>
-                            <td><strong>{{$lending->lent_to}}</strong></td>
+                            <td><a href="/lendings?form_id={{$document->form_id}}"><strong>{{$lending->lent_to}}</strong></a></td>
                         </tr>
                     @endif
 

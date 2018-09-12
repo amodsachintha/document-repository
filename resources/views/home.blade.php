@@ -13,7 +13,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <table class="table">
                     <tr class="bg-info">
-                        <td><input type="text" style="color: black" class="form-control" id="search-text" placeholder="ලිපිගොනුවේ නම අැතුලත් කරන්න" onkeyup="ajaxme()"></td>
+                        <td><input type="text" style="color: black" class="form-control" id="search-text" placeholder="ලිපිගොනුවේ නම අැතුලත් කරන්න" onkeyup="ajaxme()" autofocus></td>
                         <td align="right">
                             <select class="form-control" id="search-type" style="width: 95%;" onchange="ajaxme()" required>
                                 <option value="form_id">ගොනු අංකය</option>
@@ -38,10 +38,18 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-bottom: 20px">
             <div class="col-md-8 col-md-offset-2" align="center" id="table">
             </div>
         </div>
+
+        @if(isset($_SERVER['HTTP_REFERER']))
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2" align="center">
+                    <a href="{{$_SERVER['HTTP_REFERER']}}" class="btn btn-info">Back</a>
+                </div>
+            </div>
+        @endif
 
     </div>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
