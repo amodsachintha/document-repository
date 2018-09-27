@@ -86,9 +86,121 @@
 
 
             <script src="{{ asset('js/jquery.min.js') }}"></script>
-            <script src="{{ asset('js/custom.js') }}"></script>
+{{--            <script src="{{ asset('js/custom.js') }}"></script>--}}
             <script type="text/javascript">
+
+                function ajaxfordocs() {
+                    var ajax = new XMLHttpRequest();
+                    var count = document.getElementById("size").value;
+                    var size = getCols().length;
+                    var showDestroyed = document.getElementById('show_destroyed');
+
+                    var date_from = document.getElementById('date_from');
+                    var date_to = document.getElementById('date_to');
+
+                    ajax.open("GET", "/alldocsendpoint?" + getInputValues() + "&colsize=" + size + "&count=" + count + "&showdestroyed=" + showDestroyed.checked + "&from=" + date_from.value + "&to=" + date_to.value, true);
+                    ajax.onload = function () {
+                        // console.log(ajax.responseText);
+                        var list = JSON.parse(ajax.responseText);
+                        drawTable(list);
+                    };
+                    ajax.send();
+                }
+
+                function getInputValues() {
+                    var checkedValue = new Array();
+                    var inputElements = document.getElementsByClassName('msgcheckbox');
+                    for (var i = 0; inputElements[i]; ++i) {
+                        if (inputElements[i].checked) {
+                            checkedValue.push(inputElements[i].value + "=" + inputElements[i].value);
+                        }
+                    }
+                    return checkedValue.join('&');
+                }
+
+                function getCols() {
+                    var checkedValue = new Array();
+                    var inputElements = document.getElementsByClassName('msgcheckbox');
+                    // checkedValue.push('#');
+                    for (var i = 0; inputElements[i]; ++i) {
+                        if (inputElements[i].checked) {
+                            checkedValue.push(inputElements[i].value);
+                        }
+                    }
+                    return checkedValue;
+                }
+
+                function drawTable(list) {
+                    var tableDiv = document.getElementById('tableDiv');
+                    tableDiv.innerHTML = null;
+                    var table = document.createElement('table');
+                    table.setAttribute('class', 'table table-bordered table-hover');
+                    table.setAttribute('style', '-webkit-filter: drop-shadow(1px 2px 2px gray); margin: 2px; text-align: center; background-color: #fffffe');
+                    var thead = document.createElement('thead');
+                    var head_tr = document.createElement('tr');
+                    var cols = getCols();
+                    //creating coloumns HEAD
+
+                    var n_td = document.createElement('td');
+                    n_td.appendChild(document.createTextNode("#"));
+                    head_tr.appendChild(n_td);
+
+
+                    for (var i = 0; i < cols.length; i++) {
+                        var head_td = document.createElement('td');
+                        head_td.setAttribute('class', 'bg-info');
+                        var colname = cols[i].toString().toUpperCase().replace('_', ' ').replace('_', ' ');
+                        head_td.appendChild(document.createTextNode(colname));
+                        head_tr.appendChild(head_td);
+                    }
+
+                    var tbody = document.createElement('tbody');
+                    //creating data rows.. BODY
+                    for (var k = 0; k < list.length; k++) {
+                        var body_tr = document.createElement('tr');
+
+                        var nb_td = document.createElement('td');
+                        nb_td.appendChild(document.createTextNode((k + 1).toString()));
+                        body_tr.appendChild(nb_td);
+
+                        if (list[k]['destroyed'] === 1) {
+                            list[k]['destroyed'] = '✔';
+                            body_tr.setAttribute('style', 'background-color: #ae2c1f; color: white');
+                        }
+                        else {
+                            // list[k]['destroyed'] = '✖';
+                            list[k]['destroyed'] = '';
+                            body_tr.setAttribute('style', 'background-color: #239B56; color: black');
+                        }
+
+
+                        for (var x = 0; x < cols.length; x++) {
+                            var body_td = document.createElement('td');
+                            if (cols[x] === 'to_be_destroyed') {
+                                var now = new Date();
+                                var then = new Date(list[k]['to_be_destroyed']);
+
+                                if (list[k]['to_be_destroyed'] !== null) {
+                                    if (then.getTime() <= now.getTime()){
+                                        body_td.setAttribute('style', 'background-color: #F4D03F; color: black');
+                                    }
+                                }
+                            }
+                            body_td.appendChild(document.createTextNode(list[k][cols[x]]));
+                            body_tr.appendChild(body_td);
+                        }
+                        tbody.appendChild(body_tr);
+                    }
+
+                    thead.appendChild(head_tr);
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+                    tableDiv.innerHTML = null;
+                    tableDiv.appendChild(table);
+                }
+
                 document.onload = ajaxfordocs();
+
                 document.getElementById('date_from').valueAsDate = new Date();
                 document.getElementById('date_to').valueAsDate = new Date();
             </script>

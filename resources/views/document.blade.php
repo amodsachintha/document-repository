@@ -103,10 +103,12 @@
         <div class="row hidden-print" align="center">
             <button class="btn btn-info" id="print_btn" style="width: 100px;" onclick="window.print();">Print</button>
         </div>
-        @if(\Illuminate\Support\Facades\Auth::user()->email == "secretary@divisional.lk")
-            <div class="row hidden-print" align="center" style="margin-top: 10px">
-                <button class="btn btn-danger" id="delete_btn" style="width: 100px;" onclick="if(confirm('Are you sure?')) {deleteDocument({{$document->id}});}"> Delete</button>
-            </div>
+        @if(\Illuminate\Support\Facades\Auth::check())
+            @if(\Illuminate\Support\Facades\Auth::user()->email == "secretary@divisional.lk")
+                <div class="row hidden-print" align="center" style="margin-top: 10px">
+                    <button class="btn btn-danger" id="delete_btn" style="width: 100px;" onclick="if(confirm('Are you sure?')) {deleteDocument({{$document->id}});}"> Delete</button>
+                </div>
+            @endif
         @endif
 
     </div>

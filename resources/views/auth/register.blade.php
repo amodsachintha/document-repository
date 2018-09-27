@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(\Illuminate\Support\Facades\Auth::check())
-        @if(\Illuminate\Support\Facades\Auth::user()->isadmin)
-            {{\Illuminate\Support\Facades\Auth::user()->email}}
-        @endif
         <div class="container">
             <div class="row" align="center">
                 <div class="col-md-8 col-md-offset-2" align="center">
@@ -84,11 +80,4 @@
                 </div>
             </div>
         </div>
-    @else
-        <div class="container" align="center" style="font-family: monospace">
-            <div class="alert alert-danger">
-                <h2>401 Unauthorized</h2>
-            </div>
-        </div>
-    @endif
 @endsection
