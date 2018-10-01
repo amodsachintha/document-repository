@@ -156,6 +156,8 @@ class HomeController extends Controller
             return view('add', ['msg' => 'fail', 'info' => 'අත්‍යාවශ්‍ය තොරතුරු අැතුලත් වී නැත!']);
         }
 
+        $year = intval(date('Y')) + 10;
+
         if (!isset($form_start_date))
             $form_start_date = null;
         if (!isset($form_accepted_date))
@@ -171,7 +173,7 @@ class HomeController extends Controller
         if (!isset($form_section))
             $form_section = "-";
         if (!isset($form_to_be_destroyed))
-            $form_to_be_destroyed = null;
+            $form_to_be_destroyed = date('Y-m-d',strtotime(date(strval($year).'-01-01')));
 
         $count = DB::table('documents')
             ->where('form_id', $form_id)
