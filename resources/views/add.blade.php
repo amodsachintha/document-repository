@@ -64,7 +64,7 @@
                     </div>
                     <div class="form-group">
                         <label for="form-section" class="col-form-label font-weight-bold">ලිපිගොනුව අයත් අංශය</label>
-                        <input type="text" list="sections" class="form-control">
+                        <input type="text" list="sections" class="form-control" name="form-section">
                         <datalist id="sections">
                             @if(isset($sections))
                                 @foreach($sections as $section)
