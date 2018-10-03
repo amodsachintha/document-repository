@@ -38,7 +38,7 @@ class DocumentController extends Controller
                 $res = DB::table('documents')
                     ->where('form_start_date', '>=', $from)
                     ->where('form_start_date', '<=', $to)
-                    ->orderBy('form_start_date', 'DESC')
+                    ->orderBy('created_at', 'DESC')
                     ->limit($count)
                     ->get();
             } else {
@@ -46,7 +46,7 @@ class DocumentController extends Controller
                     ->where('destroyed', 0)
                     ->where('form_start_date', '>=', $from)
                     ->where('form_start_date', '<=', $to)
-                    ->orderBy('form_start_date', 'DESC')
+                    ->orderBy('created_at', 'DESC')
                     ->limit($count)
                     ->get();
             }
@@ -54,13 +54,13 @@ class DocumentController extends Controller
             if ($showDestroyed == "true") {
                 $res = DB::table('documents')
                     ->limit($count)
-                    ->orderBy('form_start_date', 'DESC')
+                    ->orderBy('created_at', 'DESC')
                     ->get();
             } else {
                 $res = DB::table('documents')
                     ->where('destroyed', 0)
                     ->limit($count)
-                    ->orderBy('form_start_date', 'DESC')
+                    ->orderBy('created_at', 'DESC')
                     ->get();
             }
 
